@@ -36,4 +36,4 @@ jobs:
         sha: ${{ steps.comment-branch.outputs.head_sha }}
         token: ${{ secrets.GITHUB_TOKEN }}
         status: ${{ job.status }}
-        description: "Internal CI: OK"
+        description: "Internal CI: OK (author: ${{ github.event.comment.author }}, editor: ${{ github.event.comment.editor }})"
