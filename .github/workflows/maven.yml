@@ -14,6 +14,7 @@ on:
 
 jobs:
   build:
+    permissions: write-all
     if: github.event.issue.pull_request && contains(github.event.comment.body, '/self-hosted-runner')
     runs-on: 
     - self-hosted
