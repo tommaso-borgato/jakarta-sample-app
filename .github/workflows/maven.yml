@@ -6,22 +6,32 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Java CI with Maven
+name: Java CI with Maven On self-hosted runner
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  issue_comment:
+    types: [created]
 
 jobs:
   build:
-
+    if: github.event.issue.pull_request && contains(github.event.comment.body, '/self-hosted-runner')
     runs-on: 
     - self-hosted
     - jakarta-sample-app
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: xt0rted/pull-request-comment-branch@v2
+      id: comment-branch
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ steps.comment-branch.outputs.head_ref }}
     - name: Build with Maven
       run: mvn -B package
+    - name: Set latest commit status as ${{ job.status }}
+      uses: myrotvorets/set-commit-status-action@master
+      if: always()
+      with:
+        sha: ${{ steps.comment-branch.outputs.head_sha }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+        status: ${{ job.status }}
