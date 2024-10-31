@@ -16,12 +16,25 @@ jobs:
   build:
     permissions: write-all
     # check if the comments come from pull request, exclude those from issue && check if it contains a specific comment
-    if: contains(github.event.comment.html_url, '/pull/') && github.event.issue.pull_request && contains(github.event.comment.body, '/self-hosted-runner') && (github.event.pull_request.user.login == 'tommaso-borgato')
+    if: contains(github.event.comment.html_url, '/pull/') && github.event.issue.pull_request && contains(github.event.comment.body, '/self-hosted-runner') 
+    # && (github.event.pull_request.user.login == 'tommaso-borgato')
     runs-on: 
     - self-hosted
     - jakarta-sample-app
 
-    steps:
+    steps:    
+    - name: Check user for team affiliation
+      uses: tspascoal/get-user-teams-membership@v2
+      id: teamAffiliation
+      with:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        username: ${{ github.actor }}
+        team: jbossas
+    - name: Stop workflow if user is no member
+      if: ${{ steps.teamAffiliation.outputs.isTeamMember == false }}
+      run: |
+        echo "{{ github.actor }} have no rights to trigger this job."
+        exit 1
     - uses: xt0rted/pull-request-comment-branch@v2
       id: comment-branch
     - name: Checkout
