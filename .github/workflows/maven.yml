@@ -31,7 +31,7 @@ jobs:
         team: ''
         github_token: ${{ secrets.GITHUB_TOKEN }}
     - name: can use workflow
-      if: ! ${{ steps.auth_check.outputs.team_member }}
+      if: ${{ ! steps.auth_check.outputs.team_member }}
       run: |
         echo "${{ github.triggering_actor }} cannot run this workflow!"
         exit 1
