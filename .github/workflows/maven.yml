@@ -30,6 +30,11 @@ jobs:
         org: jbossas
         team: ''
         github_token: ${{ secrets.GITHUB_TOKEN }}
+    - name: can use workflow
+      if: ${{ steps.auth_check.outputs.team_member != "true" }}
+      run: |
+        echo "${{ github.triggering_actor }} cannot run this workflow!"
+        exit 1
     - uses: xt0rted/pull-request-comment-branch@v2
       id: comment-branch
     - name: Checkout
