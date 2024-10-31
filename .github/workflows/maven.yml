@@ -22,7 +22,10 @@ jobs:
     - self-hosted
     - jakarta-sample-app
 
-    steps:    
+    steps:
+    - name: github.actor
+      run: |
+        echo "github.actor: {{ github.actor }}"
     - name: Check user for team affiliation
       uses: tspascoal/get-user-teams-membership@v2
       id: teamAffiliation
