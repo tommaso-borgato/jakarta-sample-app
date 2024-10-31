@@ -22,16 +22,14 @@ jobs:
     - self-hosted
     - jakarta-sample-app
 
-    steps:
-    - name: Team Membership Access 
-      uses: kubmeta/team-membership@v2
+    steps:    
+    - id: auth_check
+      uses: morfien101/actions-authorized-user@v3
       with:
-        # Username to get teams or check team membership
         username: ${{ github.triggering_actor }}
-        # Team to check the membership
-        team: jbossas
-        # GITHUB_TOKEN
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        org: jbossas
+        team: ''
+        github_token: ${{ secrets.GITHUB_TOKEN }}
     - uses: xt0rted/pull-request-comment-branch@v2
       id: comment-branch
     - name: Checkout
