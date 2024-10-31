@@ -16,7 +16,8 @@ jobs:
   build:
     permissions: write-all
     # check if the comments come from pull request, exclude those from issue && check if it contains a specific comment
-    if: contains(github.event.comment.html_url, '/pull/') && github.event.issue.pull_request && contains(github.event.comment.body, '/self-hosted-runner') && (github.actor == 'tommaso-borgato')
+    if: contains(github.event.comment.html_url, '/pull/') && github.event.issue.pull_request && contains(github.event.comment.body, '/self-hosted-runner')
+    # && (github.actor == 'tommaso-borgato')
     runs-on: 
     - self-hosted
     - jakarta-sample-app
