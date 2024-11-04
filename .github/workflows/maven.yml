@@ -24,13 +24,13 @@ jobs:
 
     steps:    
     - id: enforce-collaborator-action
-      uses: tommaso-borgato/enforce-collaborator-action@1.0.0
+      uses: tommaso-borgato/enforce-collaborator-action@main
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
     - name: is collaborator
-      if: ${{ steps.enforce-collaborator-action.outputs.is-collaborator != 'true' }}
+      if: ${{ steps.enforce-collaborator-action.outputs.is_collaborator != 'true' }}
       run: |
-        echo "${{ github.triggering_actor }} cannot run this workflow! ${{ steps.enforce-collaborator-action.outputs.is-collaborator }}"
+        echo "${{ github.triggering_actor }} cannot run this workflow! <<${{ steps.enforce-collaborator-action.outputs.is_collaborator }}>>"
         exit 1
     - uses: xt0rted/pull-request-comment-branch@v2
       id: comment-branch
