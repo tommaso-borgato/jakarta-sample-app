@@ -28,7 +28,7 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
     - name: is collaborator
-      if: ${{ ! steps.enforce-collaborator-action.outputs.is-collaborator }}
+      if: ${{ steps.enforce-collaborator-action.outputs.is-collaborator != 'true' }}
       run: |
         echo "${{ github.triggering_actor }} cannot run this workflow!"
         exit 1
