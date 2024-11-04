@@ -30,7 +30,7 @@ jobs:
     - name: is collaborator
       if: ${{ steps.enforce-collaborator-action.outputs.is-collaborator != 'true' }}
       run: |
-        echo "${{ github.triggering_actor }} cannot run this workflow!"
+        echo "${{ github.triggering_actor }} cannot run this workflow! ${{ steps.enforce-collaborator-action.outputs.is-collaborator }}"
         exit 1
     - uses: xt0rted/pull-request-comment-branch@v2
       id: comment-branch
