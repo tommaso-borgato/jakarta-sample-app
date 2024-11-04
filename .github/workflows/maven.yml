@@ -27,7 +27,10 @@ jobs:
       uses: tommaso-borgato/enforce-collaborator-action@main
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-    - name: is collaborator
+    - name: echo is collaborator
+      run: |
+        echo "${{ github.triggering_actor }} is_collaborator: <<${{ steps.enforce-collaborator-action.outputs.is_collaborator }}>>"
+    - name: check is collaborator
       if: ${{ steps.enforce-collaborator-action.outputs.is_collaborator != 'true' }}
       run: |
         echo "${{ github.triggering_actor }} cannot run this workflow! <<${{ steps.enforce-collaborator-action.outputs.is_collaborator }}>>"
