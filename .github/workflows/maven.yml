@@ -23,15 +23,12 @@ jobs:
     - jakarta-sample-app
 
     steps:    
-    - id: auth_check
-      uses: morfien101/actions-authorized-user@v3
+    - id: enforce-collaborator-action
+      uses: tommaso-borgato/enforce-collaborator-action@1.0.0
       with:
-        username: ${{ github.triggering_actor }}
-        org: jbossas
-        team: ''
         github_token: ${{ secrets.GITHUB_TOKEN }}
-    - name: can use workflow
-      if: ${{ ! steps.auth_check.outputs.team_member }}
+    - name: is collaborator
+      if: ${{ ! steps.enforce-collaborator-action.outputs.is-collaborator }}
       run: |
         echo "${{ github.triggering_actor }} cannot run this workflow!"
         exit 1
